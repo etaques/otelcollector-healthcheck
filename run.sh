@@ -13,12 +13,12 @@ trap stop1 SIGINT
 trap stop1 SIGTERM
 
 # checking if log exist
-if [ -d "/var/log/otel-collector.log" ]; then
-    rm /var/log/otel-collector.log &
+if [ -d "/var/log/otelcollector-log.json" ]; then
+    rm /var/log/otelcollector-log.json &
 fi
 
 # checking if logrotate config exists
-if [ -d "/var/log/otel-collector.log" ]; then
+if [ -d "/var/log/otelcollector-log.json" ]; then
 
 cat << 'EOF' > /etc/logrotate.d/otelcollector
 /var/log/otelcollector-log.json {
