@@ -13,8 +13,22 @@ trap stop1 SIGINT
 trap stop1 SIGTERM
 
 # checking if log exist
-if [ -d "/tmp/otel-collector.log" ]; then
-    rm /tmp/otel-collector.log &
+if [ -d "/var/log/otel-collector.log" ]; then
+    rm /var/log/otel-collector.log &
+fi
+
+# checking if logrotate config exists
+if [ -d "/var/log/otel-collector.log" ]; then
+
+cat << 'EOF' > /etc/logrotate.d/otelcollector
+/var/log/otelcollector-log.json {
+    daily
+    missingok
+    rotate 2
+    compress
+}
+EOF
+
 fi
 
 # eternal loop
@@ -22,10 +36,10 @@ while true
 do
   # pid file dont exist
   if [ ! -f "/var/run/collector.pid"  ]; then
-    # running healthcheck to read logs to stdout
+    # running cron
+    crond &
+    # running healthcheck
     ./healthcheck &
-    # running in background
-    nohup /usr/local/bin/otelcontribcol --config /etc/otelcol-contrib/config.yaml &>/tmp/otel-collector.log &
     # write pid on file
     echo $! > /var/run/collector.pid
     sleep 3

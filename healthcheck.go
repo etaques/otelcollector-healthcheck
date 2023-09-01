@@ -55,7 +55,7 @@ func main() {
 	// initial status
 	as := newHealthCheck("ok", "healthy")
 	// start filtering logs
-	as.filterLogs("/tmp/otel-collector.log")
+	as.filterLogs("/var/log/otelcollector-log.json")
 	http.HandleFunc("/health", as.health)
 	// start webserver
 	http.ListenAndServe(":8090", nil)
