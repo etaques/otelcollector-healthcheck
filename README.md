@@ -2,7 +2,9 @@
 
 is need to activate telemetry on otelcollector to write logs on disk.
 
-This container control the log size (logrotate) and monitor the log from collector in real time, reporting on API if found any error
+This container control the log size (logrotate) and monitor the log from collector in real time, reporting on API if found any error.
+
+The best approach is use this a otelcollector sidecar container to the same pod on k8s
 
 ```
 receivers:                                                                                                                                                         
